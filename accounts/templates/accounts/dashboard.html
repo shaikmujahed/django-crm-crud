@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row p-3">
+  <div class="col-12 mb-3">
+    {% include 'components/status.html' %}
+  </div>
+  <div class="col-md-6">
+    <div class="d-block px-2">
+      <h4 class="text-uppercase">Customer</h4>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th colspan="2">
+            <button type="button" name="" id="" class="btn btn-primary  btn-block">Add Customer</button>
+          </th>
+        </tr>
+        <tr>
+          <th>Customer</th>
+          <th>Order</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-md-6">
+    <div class="d-block px-2">
+      <h4 class="text-uppercase">Last 5 orders</h4>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th colspan="5">
+            <button type="button" name="" id="" class="btn btn-primary  btn-block">Create Order</button>
+          </th>
+        </tr>
+        <tr>
+          <th>Product</th>
+          <th>Date Ordered</th>
+          <th>Status</th>
+          <th>Update</th>
+          <th>Remove</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock content %}
