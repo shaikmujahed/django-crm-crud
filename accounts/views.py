@@ -23,8 +23,17 @@ def index(request):
 
 def products(request):
     products = Product.objects.all()
-    return render(request, 'accounts/products.html', {'products': products})
+    return render(request, 'accounts/products.html', {
+        'products': products
+    })
 
 
-def customer(request):
-    return render(request, 'accounts/customer.html')
+def customer(request, id):
+    customer = Customer.objects.get(id=id)
+    orders = customer.order_set.all()
+    order_count = orders.count()
+    return render(request, 'accounts/customer.html', {
+        'customer': customer,
+        'orders': orders,
+        'order_count': order_count
+    })
