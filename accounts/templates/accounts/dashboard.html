@@ -19,14 +19,18 @@
         </tr>
         <tr>
           <th>Customer</th>
-          <th>Order</th>
+          <th>Phone</th>
         </tr>
       </thead>
       <tbody>
+
+        {% for customer in customers %}
         <tr>
-          <td></td>
-          <td></td>
+          <td>{{customer.name}}</td>
+          <td>{{customer.phone}}</td>
         </tr>
+        {% endfor %}
+
       </tbody>
     </table>
   </div>
@@ -51,10 +55,28 @@
         </tr>
       </thead>
       <tbody>
+
+        {% for order in orders %}
         <tr>
-          <td></td>
-          <td></td>
+          <td>{{order.product}}</td>
+          <td>{{order.created_at}}</td>
+          <td>
+            {% if order.status == 'Pending' %}
+            <span class="badge badge-pill badge-warning">{{order.status}}</span>
+            {% endif %}
+
+            {% if order.status == 'Out for delivery' %}
+            <span class="badge badge-pill badge-primary">{{order.status}}</span>
+            {% endif %}
+
+            {% if order.status == 'Delivered' %}
+            <span class="badge badge-pill badge-success">{{order.status}}</span>
+            {% endif %}
+          </td>
+          <td><a name="" id="" class="btn btn-sm btn-primary" href="#" role="button">Update</a></td>
+          <td><a name="" id="" class="btn btn-sm btn-danger" href="#" role="button">Remove</a></td>
         </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>
