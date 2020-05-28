@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from accounts.models import *
 from .forms import OrderForm
+from .filters import OrderFilter
 
 
 def index(request):
@@ -31,13 +32,21 @@ def products(request):
 
 def customer(request, id):
     customer = Customer.objects.get(id=id)
+
     orders = customer.order_set.all()
     order_count = orders.count()
-    return render(request, 'accounts/customer.html', {
+
+    order_filter = OrderFilter(request.GET, queryset=orders)
+    orders = order_filter.qs
+    
+    print(request.GET, orders)
+    context = {
         'customer': customer,
         'orders': orders,
-        'order_count': order_count
-    })
+        'order_count': order_count,
+        'order_filter': order_filter
+    }
+    return render(request, 'accounts/customer.html', context)
 
 
 def create_order(request):
