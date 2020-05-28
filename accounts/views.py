@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from accounts.models import *
+from .forms import OrderForm
 
 
 def index(request):
@@ -37,3 +38,41 @@ def customer(request, id):
         'orders': orders,
         'order_count': order_count
     })
+
+
+def create_order(request):
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    else:
+        form = OrderForm()
+
+    context = {'form': form}
+    return render(request, 'accounts/create_order_form.html', context)
+
+
+def update_order(request, pk):
+    order = Order.objects.get(pk=pk)
+    form = OrderForm(instance=order)
+
+    if request.method == 'POST':
+        form = OrderForm(request.POST, instance=order)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+
+    context = {'form': form}
+    return render(request, 'accounts/update_order_form.html', context)
+
+
+def delete_order(request, pk):
+    order = Order.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        order.delete()
+        return redirect('index')
+
+    context = {'order': order}
+    return render(request, 'accounts/delete_order.html', context)

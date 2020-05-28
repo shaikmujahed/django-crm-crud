@@ -47,7 +47,8 @@
       <thead>
         <tr>
           <th colspan="5">
-            <button type="button" name="" id="" class="btn btn-primary  btn-block">Create Order</button>
+            <a href="{% url 'create_order' %}" type="button" name="" id="" class="btn btn-primary  btn-block">Create
+              Order</a>
           </th>
         </tr>
         <tr>
@@ -77,8 +78,12 @@
             <span class="badge badge-pill badge-success">{{order.status}}</span>
             {% endif %}
           </td>
-          <td><a name="" id="" class="btn btn-sm btn-primary" href="#" role="button">Update</a></td>
-          <td><a name="" id="" class="btn btn-sm btn-danger" href="#" role="button">Remove</a></td>
+          <td>
+            <a class="btn btn-sm btn-primary" href="{% url 'update_order' order.id %}" role="button">Update</a>
+          </td>
+          <td>
+            <a class="btn btn-sm btn-danger" href="{% url 'delete_order' order.id %}" role="button">Remove</a>
+          </td>
         </tr>
         {% endfor %}
       </tbody>
