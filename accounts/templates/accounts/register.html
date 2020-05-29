@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container auth-container d-flex justify-content-center align-items-center">
+  <form class="form-signin" method="POST" action="" novalidate>
+    {% csrf_token %}
+
+    {% for field in form %}
+    <div class="form-group {% if field.errors %} is-invalid {% endif %}">
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+      {{field}}
+      {% if field.errors %}
+        <div class="text-danger">
+          {% for error in field.errors %}
+          {{ error }}
+          {% endfor %}
+        </div>
+      {% endif %}
+        
+    </div>
+    {% endfor %}
+
+    <div class="form-group">
+      <small class="text-muted">
+        Already have an account? <a href="{% url 'login' %}">login</a>
+      </small>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+{% endblock content %}

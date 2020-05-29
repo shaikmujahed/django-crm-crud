@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container auth-container d-flex justify-content-center align-items-center">
+  <form class="form-signin" method="POST" action="" novalidate>
+    {% csrf_token %}
+
+    <div class="form-group {% if field.errors %} is-invalid {% endif %}">
+      <label for="{{ field.id_for_label }}">Username</label>
+      <input type="text" class="form-control" name="username" id="" aria-describedby="helpId" placeholder="">
+      {% if field.errors %}
+      <div class="text-danger">
+        {% for error in field.errors %}
+        {{ error }}
+        {% endfor %}
+      </div>
+      {% endif %}
+
+    </div>
+
+    <div class="form-group {% if field.errors %} is-invalid {% endif %}">
+      <label for="{{ field.id_for_label }}">Password</label>
+      <input type="password" class="form-control" name="password" id="" aria-describedby="helpId" placeholder="">
+      {% if field.errors %}
+      <div class="text-danger">
+        {% for error in field.errors %}
+        {{ error }}
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="form-group">
+      <small class="text-muted">
+        Have no account yet? <a href="{% url 'register' %}">register</a>
+      </small>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <p>
+        {{ message }}
+      </p>
+    </div>
+    {% endfor %}
+  </form>
+</div>
+{% endblock content %}
