@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row p-3">
+  <div class="col-3">
+    <div class="card text-left">
+      <div class="card-body">
+        <a type="button" name="" id="" class="btn btn-warning">&larr; back to Profile</a>
+        <div class="h1 mt-3">Account settings</div>
+        
+        {% if request.user.customer.profile_pic %}
+        <img src="{{ request.user.customer.profile_pic.url }}" alt="" srcset="">
+        {% endif %}
+          
+      </div>
+    </div>
+  </div>
+  <div class="col-9">
+    <div class="card text-left">
+      <div class="card-body">
+        <form action="" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ form }}
+          <hr>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

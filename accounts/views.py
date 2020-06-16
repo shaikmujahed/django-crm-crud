@@ -7,7 +7,7 @@ from django.contrib.auth.models import Group
 
 # Project file imports
 from accounts.models import *
-from .forms import OrderForm, RegistrationForm
+from .forms import *
 from .filters import OrderFilter
 from .decorators import *
 
@@ -58,7 +58,7 @@ def customer(request, pk):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['customer'])
+@allowed_users(allowed_roles=['admin', 'customer'])
 def userPage(request):
     orders = request.user.customer.order_set.all()
     total_orders = orders.count()
@@ -72,6 +72,21 @@ def userPage(request):
     }
 
     return render(request, 'accounts/user.html', context)
+
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin', 'customer'])
+def settingsPage(request):
+    user = request.user.customer
+    form = CustomerForm(instance=user)
+
+    if request.method == 'POST':
+        form = CustomerForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+
+    context = {'form': form}
+    return render(request, 'accounts/settings.html', context)
 
 
 @login_required(login_url='login')
