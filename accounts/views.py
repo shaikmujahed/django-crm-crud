@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
 
 # Project file imports
 from accounts.models import *
@@ -54,6 +55,23 @@ def customer(request, pk):
         'order_filter': order_filter
     }
     return render(request, 'accounts/customer.html', context)
+
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['customer'])
+def userPage(request):
+    orders = request.user.customer.order_set.all()
+    total_orders = orders.count()
+    delivered = orders.filter(status="Delivered").count()
+    pending = orders.filter(status="Pending").count()
+    context = {
+        'orders': orders,
+        'total_orders': total_orders,
+        'delivered': delivered,
+        'pending': pending
+    }
+
+    return render(request, 'accounts/user.html', context)
 
 
 @login_required(login_url='login')
@@ -124,7 +142,7 @@ def register(request):
             user = form.cleaned_data.get('username')
             messages.success(
                 request, f'Account has  been successfully created for {user}')
-            return redirect('login')
+            # return redirect('login')
     else:
         form = RegistrationForm()
 
