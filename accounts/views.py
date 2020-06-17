@@ -153,11 +153,14 @@ def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
-            user = form.cleaned_data.get('username')
+            user = form.save()
+            group = Group.objects.get(name='customer')
+            user.groups.add(group)
+            username = form.cleaned_data.get('username')
             messages.success(
-                request, f'Account has  been successfully created for {user}')
-            # return redirect('login')
+                request,
+                f'Account has  been successfully created for {username}')
+            return redirect('login')
     else:
         form = RegistrationForm()
 
