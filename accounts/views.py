@@ -147,15 +147,13 @@ def loginView(request):
     return render(request, 'accounts/login.html')
 
 
-@unauthorized_user
+# @unauthorized_user
 def register(request):
     form = RegistrationForm()
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            group = Group.objects.get(name='customer')
-            user.groups.add(group)
             username = form.cleaned_data.get('username')
             messages.success(
                 request,
