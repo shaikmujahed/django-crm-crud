@@ -41,7 +41,7 @@ def products(request):
 
 @login_required(login_url='login')
 def customer(request, pk):
-    customer = Customer.objects.get(pk=pk)
+    customer = get_object_or_404(Customer, pk=pk)
     orders = customer.order_set.all()
     order_count = orders.count()
 
