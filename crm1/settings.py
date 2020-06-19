@@ -134,3 +134,4 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'thequickaventador@gmail.com'
 EMAIL_HOST_PASSWORD = 'SHE4305_TX1'
+DEFAULT_FROM_EMAIL = "The CRM Team <thequickaventador@gmail.com>"
