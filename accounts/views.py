@@ -3,10 +3,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
 
 # Project file imports
 from accounts.models import *
-from .forms import OrderForm, RegistrationForm
+from .forms import *
 from .filters import OrderFilter
 from .decorators import *
 
@@ -40,7 +41,7 @@ def products(request):
 
 @login_required(login_url='login')
 def customer(request, pk):
-    customer = Customer.objects.get(pk=pk)
+    customer = get_object_or_404(Customer, pk=pk)
     orders = customer.order_set.all()
     order_count = orders.count()
 
@@ -54,6 +55,38 @@ def customer(request, pk):
         'order_filter': order_filter
     }
     return render(request, 'accounts/customer.html', context)
+
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin', 'customer'])
+def userPage(request):
+    orders = request.user.customer.order_set.all()
+    total_orders = orders.count()
+    delivered = orders.filter(status="Delivered").count()
+    pending = orders.filter(status="Pending").count()
+    context = {
+        'orders': orders,
+        'total_orders': total_orders,
+        'delivered': delivered,
+        'pending': pending
+    }
+
+    return render(request, 'accounts/user.html', context)
+
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin', 'customer'])
+def settingsPage(request):
+    user = request.user.customer
+    form = CustomerForm(instance=user)
+
+    if request.method == 'POST':
+        form = CustomerForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+
+    context = {'form': form}
+    return render(request, 'accounts/settings.html', context)
 
 
 @login_required(login_url='login')
@@ -114,16 +147,17 @@ def loginView(request):
     return render(request, 'accounts/login.html')
 
 
-@unauthorized_user
+# @unauthorized_user
 def register(request):
     form = RegistrationForm()
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
-            user = form.cleaned_data.get('username')
+            user = form.save()
+            username = form.cleaned_data.get('username')
             messages.success(
-                request, f'Account has  been successfully created for {user}')
+                request,
+                f'Account has  been successfully created for {username}')
             return redirect('login')
     else:
         form = RegistrationForm()

@@ -3,3 +3,4 @@ node_modules
 .vscode/tasks.json
 db.sqlite3
 __pycache__/
+uploads/

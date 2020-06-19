@@ -26,7 +26,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -70,7 +69,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'crm1.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -80,30 +78,32 @@ DATABASES = {
         'NAME': 'djangoapp_crm',
         'USER': 'root',
         'PASSWORD': '',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'HOST': 'localhost',  # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -118,11 +118,20 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
+MEDIA_URL = '/uploads/images/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads/images')
+
+# For sending email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'thequickaventador@gmail.com'
+EMAIL_HOST_PASSWORD = 'SHE4305_TX1'
+DEFAULT_FROM_EMAIL = "The CRM Team <thequickaventador@gmail.com>"
